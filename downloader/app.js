@@ -75,9 +75,17 @@ async function go(){
 }
 
 async function apiFetch(url,opts={}){
-  const ctrl=new AbortController(),tid=setTimeout(()=>ctrl.abort(),25000);
-  try{const r=await fetch(url,{signal:ctrl.signal,...opts});clearTimeout(tid);if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();}
-  finally{clearTimeout(tid);}
+  const ctrl=new AbortController(),tid=setTimeout(()=>ctrl.abort(),15000);
+  try{
+    const r=await fetch(url,{signal:ctrl.signal,...opts});
+    clearTimeout(tid);
+    if(!r.ok)throw new Error(`HTTP ${r.status}`);
+    return r.json();
+  }catch(e){
+    clearTimeout(tid);
+    if(e.name==='AbortError')throw new Error('Request timeout. Server terlalu lambat, coba lagi.');
+    throw e;
+  }
 }
 
 async function fetchFacebook(url){
@@ -172,7 +180,7 @@ async function fetchTwitter(url){
     meta:[{icon:'🐦',text:'X / Twitter'},{icon:'🎬',text:`${links.length} kualitas tersedia`}],links};
 }
 
-function showLoading(){goBtn.disabled=true;zone.style.display='block';zLoad.style.display='flex';zErr.style.display='none';zMedia.style.display='none';}
+function showLoading(){goBtn.disabled=true;zone.style.display='block';zLoad.style.display='flex';zErr.style.display='none';zMedia.style.display='none';setTimeout(()=>zone.scrollIntoView({behavior:'smooth',block:'nearest'}),50);}
 function showError(msg){goBtn.disabled=false;zone.style.display='block';zLoad.style.display='none';zErr.style.display='flex';$('zErrMsg').textContent=msg;}
 function resetUI(){goBtn.disabled=false;zone.style.display='none';zLoad.style.display='none';zErr.style.display='none';zMedia.style.display='none';}
 window.resetUI=resetUI;
