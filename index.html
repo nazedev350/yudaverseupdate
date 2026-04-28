@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Yuda — YudaVerse Portfolio</title>
+  <link rel="icon" type="image/jpeg" href="logo.jpeg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=M+PLUS+1p:wght@300;400;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0a0a0a;
+      --surface:#131313;
+      --surface2:#1a1a1a;
+      --border:rgba(255,255,255,.08);
+      --border2:rgba(255,255,255,.15);
+      --text:#f0ece0;
+      --muted:#6b6355;
+      --muted2:#a09880;
+      --accent:#ff3860;
+      --accent2:#ff8c00;
+      --yellow:#fff200;
+      --green:#00e676;
+      --ink:#111;
+      --font-head:'Bangers',cursive;
+      --font-body:'M PLUS 1p',sans-serif;
+    }
+
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--bg);color:var(--text);
+      font-family:var(--font-body);
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      cursor:none;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor{
+      position:fixed;width:12px;height:12px;
+      background:var(--accent);border-radius:0;
+      transform:rotate(45deg);
+      pointer-events:none;z-index:99999;
+      transition:transform .1s;
+      mix-blend-mode:difference;
+    }
+    .cursor-ring{
+      position:fixed;width:32px;height:32px;
+      border:2px solid var(--accent);border-radius:0;
+      transform:rotate(45deg);
+      pointer-events:none;z-index:99998;
+      transition:all .12s ease;
+      opacity:.5;
+    }
+
+    /* ── MANGA BG TEXTURE ── */
+    body::before{
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+      background-image:
+        radial-gradient(circle,rgba(255,56,96,.04) 1px,transparent 1px);
+      background-size:20px 20px;
+    }
+    body::after{
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+      background:
+        radial-gradient(ellipse 60% 50% at 10% 10%,rgba(255,56,96,.12) 0%,transparent 60%),
+        radial-gradient(ellipse 50% 40% at 90% 90%,rgba(255,140,0,.08) 0%,transparent 60%);
+    }
+
+    /* ── NAVBAR ── */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:1000;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 24px;
+      background:rgba(10,10,10,.85);
+      border-bottom:3px solid var(--ink);
+      backdrop-filter:blur(20px);
+      box-shadow:0 4px 0 rgba(255,56,96,.2);
+    }
+    .nav-logo{
+      display:flex;align-items:center;gap:10px;
+      text-decoration:none;
+    }
+    .nav-logo-img{
+      width:38px;height:38px;border-radius:50%;object-fit:cover;
+      border:3px solid var(--ink);
+      box-shadow:2px 2px 0 var(--accent);
+    }
+    .nav-logo-ring{
+      position:absolute;inset:-3px;border-radius:50%;
+      border:1.5px dashed rgba(255,56,96,.5);
+      animation:spin 5s linear infinite;
+    }
+    .nav-logo-wrap{position:relative;width:42px;height:42px;display:flex;align-items:center;justify-content:center;}
+    .nav-logo-text{
+      font-family:var(--font-head);font-size:1.4rem;
+      color:var(--text);letter-spacing:.05em;
+      text-shadow:2px 2px 0 var(--accent);
+    }
+    .nav-links{display:flex;align-items:center;gap:6px}
+    .nav-link{
+      font-family:var(--font-head);font-size:.85rem;letter-spacing:.08em;
+      color:var(--muted2);text-decoration:none;
+      padding:6px 12px;border:2px solid transparent;border-radius:3px;
+      transition:all .15s;
+    }
+    .nav-link:hover{
+      color:var(--accent);border-color:var(--accent);
+      transform:translate(-1px,-1px);
+      box-shadow:2px 2px 0 var(--accent);
+    }
+    .nav-link.cta{
+      background:var(--accent);color:#fff;
+      border-color:var(--ink);border-width:2px;
+      box-shadow:3px 3px 0 var(--ink);
+    }
+    .nav-link.cta:hover{
+      transform:translate(-2px,-2px);
+      box-shadow:5px 5px 0 var(--ink);
+      color:#fff;border-color:var(--ink);
+    }
+
+    /* ── HERO ── */
+    .hero{
+      position:relative;z-index:1;
+      min-height:100dvh;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      padding:100px 24px 60px;
+      text-align:center;
+      overflow:hidden;
+    }
+    .hero-speed-lines{
+      position:absolute;inset:0;pointer-events:none;
+      background:conic-gradient(from 0deg at 50% 50%,
+        transparent 0deg,transparent 85deg,
+        rgba(255,56,96,.04) 85deg,rgba(255,56,96,.04) 90deg,
+        transparent 90deg,transparent 175deg,
+        rgba(255,56,96,.03) 175deg,rgba(255,56,96,.03) 180deg,
+        transparent 180deg,transparent 265deg,
+        rgba(255,56,96,.04) 265deg,rgba(255,56,96,.04) 270deg,
+        transparent 270deg,transparent 355deg,
+        rgba(255,56,96,.03) 355deg,rgba(255,56,96,.03) 360deg
+      );
+      animation:slowSpin 30s linear infinite;
+    }
+    @keyframes slowSpin{to{transform:rotate(360deg)}}
+
+    .hero-avatar-wrap{
+      position:relative;margin-bottom:32px;
+      animation:heroIn .8s cubic-bezier(.34,1.56,.64,1) forwards;
+    }
+    @keyframes heroIn{
+      from{opacity:0;transform:translateY(40px) scale(.8)}
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+    .hero-avatar-ring-outer{
+      position:absolute;inset:-16px;border-radius:50%;
+      border:3px dashed rgba(255,56,96,.35);
+      animation:spin 8s linear infinite;
+    }
+    .hero-avatar-ring-mid{
+      position:absolute;inset:-8px;border-radius:50%;
+      border:2px solid rgba(255,140,0,.25);
+      animation:spin 5s linear infinite reverse;
+    }
+    .hero-avatar{
+      width:140px;height:140px;border-radius:50%;
+      object-fit:cover;
+      border:4px solid var(--ink);
+      box-shadow:6px 6px 0 var(--accent), 10px 10px 0 rgba(255,56,96,.2);
+      position:relative;z-index:1;
+    }
+    .hero-badge{
+      position:absolute;bottom:-8px;right:-8px;z-index:2;
+      background:var(--accent);color:#fff;
+      font-family:var(--font-head);font-size:.65rem;letter-spacing:.12em;
+      padding:3px 8px;
+      border:2px solid var(--ink);
+      box-shadow:2px 2px 0 var(--ink);
+      clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+    }
+
+    .hero-greeting{
+      font-family:var(--font-head);font-size:1rem;
+      color:var(--accent2);letter-spacing:.25em;
+      margin-bottom:8px;
+      animation:slideUp .6s .2s both;
+    }
+    .hero-name{
+      font-family:var(--font-head);font-size:clamp(3.5rem,12vw,6rem);
+      color:var(--text);letter-spacing:.04em;line-height:.95;
+      text-shadow:5px 5px 0 var(--accent), 8px 8px 0 rgba(0,0,0,.5);
+      -webkit-text-stroke:1.5px var(--ink);
+      margin-bottom:12px;
+      animation:slideUp .6s .3s both;
+    }
+    .hero-tagline{
+      font-size:.9rem;color:var(--muted2);line-height:1.7;
+      max-width:420px;
+      margin:0 auto 32px;
+      animation:slideUp .6s .4s both;
+    }
+    .hero-tagline strong{color:var(--accent);font-weight:800}
+    .hero-chips{
+      display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+      margin-bottom:36px;
+      animation:slideUp .6s .5s both;
+    }
+    .chip{
+      font-family:var(--font-head);font-size:.8rem;letter-spacing:.08em;
+      padding:5px 12px;
+      border:2px solid var(--ink);
+      background:var(--surface);
+      box-shadow:2px 2px 0 var(--ink);
+      clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+      transition:all .15s;
+    }
+    .chip:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--accent)}
+    .chip.red{color:var(--accent);background:rgba(255,56,96,.1)}
+    .chip.orange{color:var(--accent2);background:rgba(255,140,0,.1)}
+    .chip.yellow{color:var(--yellow);background:rgba(255,242,0,.08)}
+    .chip.green{color:var(--green);background:rgba(0,230,118,.08)}
+
+    .hero-cta{
+      display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+      animation:slideUp .6s .6s both;
+    }
+    .btn-primary{
+      font-family:var(--font-head);font-size:1rem;letter-spacing:.1em;
+      padding:12px 28px;
+      background:var(--accent);color:#fff;
+      border:3px solid var(--ink);
+      box-shadow:4px 4px 0 var(--ink);
+      text-decoration:none;
+      clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+      transition:all .15s;display:inline-block;
+    }
+    .btn-primary:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);color:#fff}
+    .btn-secondary{
+      font-family:var(--font-head);font-size:1rem;letter-spacing:.1em;
+      padding:12px 28px;
+      background:transparent;color:var(--text);
+      border:3px solid var(--border2);
+      box-shadow:4px 4px 0 rgba(255,255,255,.05);
+      text-decoration:none;
+      clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+      transition:all .15s;display:inline-block;
+    }
+    .btn-secondary:hover{border-color:var(--accent);color:var(--accent);transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(255,56,96,.3)}
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-indicator{
+      position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+      display:flex;flex-direction:column;align-items:center;gap:6px;
+      animation:bounce 2s ease-in-out infinite;
+      color:var(--muted);font-family:var(--font-head);font-size:.65rem;letter-spacing:.15em;
+    }
+    .scroll-arrow{width:20px;height:30px;border:2px solid var(--muted);border-top:none;border-radius:0 0 10px 10px;position:relative}
+    .scroll-arrow::after{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:2px;height:8px;background:var(--muted);border-radius:1px;animation:scrollDown 1.5s ease-in-out infinite}
+    @keyframes scrollDown{0%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0;transform:translateX(-50%) translateY(6px)}}
+    @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-5px)}}
+
+    /* ── SECTION BASE ── */
+    section{position:relative;z-index:1;padding:80px 24px}
+    .container{max-width:720px;margin:0 auto}
+    .section-label{
+      font-family:var(--font-head);font-size:.7rem;letter-spacing:.25em;
+      color:var(--accent);margin-bottom:8px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .section-label::before{content:'✦'}
+    .section-title{
+      font-family:var(--font-head);font-size:clamp(2rem,6vw,3rem);
+      color:var(--text);letter-spacing:.04em;line-height:1;
+      text-shadow:3px 3px 0 var(--accent);
+      -webkit-text-stroke:.5px var(--ink);
+      margin-bottom:32px;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid{display:grid;grid-template-columns:1fr;gap:20px}
+    .about-card{
+      background:var(--surface);
+      border:3px solid var(--ink);
+      border-radius:6px;
+      padding:20px;
+      box-shadow:4px 4px 0 var(--ink);
+      position:relative;overflow:hidden;
+    }
+    .about-card::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+    }
+    .about-card-title{
+      font-family:var(--font-head);font-size:1.1rem;letter-spacing:.06em;
+      color:var(--text);margin-bottom:10px;
+    }
+    .about-card-title span{color:var(--accent)}
+    .about-card p{font-size:.85rem;color:var(--muted2);line-height:1.8}
+
+    /* ── SKILLS ── */
+    .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    @media(min-width:500px){.skills-grid{grid-template-columns:repeat(3,1fr)}}
+    .skill-card{
+      background:var(--surface);
+      border:3px solid var(--ink);
+      padding:14px 12px;
+      box-shadow:3px 3px 0 var(--ink);
+      display:flex;flex-direction:column;gap:6px;
+      clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+      transition:transform .15s,box-shadow .2s;cursor:default;
+    }
+    .skill-card:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--accent)}
+    .skill-icon{font-size:1.4rem}
+    .skill-name{font-family:var(--font-head);font-size:.9rem;letter-spacing:.04em}
+    .skill-bar-wrap{height:4px;background:var(--surface2);border:1px solid var(--border);border-radius:0}
+    .skill-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:0;transition:width 1s ease}
+    .skill-bar[data-w]{width:0}
+    .skill-level{font-size:.62rem;color:var(--muted);letter-spacing:.05em}
+
+    /* ── PROJECTS ── */
+    .projects-grid{display:flex;flex-direction:column;gap:16px}
+    .project-card{
+      background:var(--surface);
+      border:3px solid var(--ink);
+      border-radius:4px;
+      padding:20px;
+      box-shadow:4px 4px 0 var(--ink);
+      display:flex;align-items:flex-start;gap:16px;
+      transition:transform .15s,box-shadow .2s;
+      position:relative;overflow:hidden;
+    }
+    .project-card::after{
+      content:'';position:absolute;bottom:0;right:0;
+      width:60px;height:60px;
+      background:radial-gradient(circle at bottom right,rgba(255,56,96,.08),transparent 70%);
+    }
+    .project-card:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--accent)}
+    .project-icon{
+      width:48px;height:48px;flex-shrink:0;
+      background:rgba(255,56,96,.1);
+      border:2px solid var(--ink);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.4rem;
+      clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+    }
+    .project-info{flex:1}
+    .project-name{
+      font-family:var(--font-head);font-size:1.1rem;letter-spacing:.04em;
+      margin-bottom:4px;
+    }
+    .project-desc{font-size:.8rem;color:var(--muted2);line-height:1.6;margin-bottom:10px}
+    .project-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+    .tag{
+      font-size:.6rem;font-family:var(--font-head);letter-spacing:.1em;
+      padding:2px 7px;background:var(--surface2);
+      border:1.5px solid var(--border2);color:var(--muted2);
+    }
+    .project-link{
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:var(--font-head);font-size:.78rem;letter-spacing:.06em;
+      color:var(--accent);text-decoration:none;
+      border:2px solid var(--accent);padding:4px 10px;
+      box-shadow:2px 2px 0 var(--ink);
+      transition:all .15s;
+    }
+    .project-link:hover{background:var(--accent);color:#fff;transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+
+    /* ── CONTACT ── */
+    .contact-grid{display:flex;flex-direction:column;gap:12px}
+    .contact-item{
+      display:flex;align-items:center;gap:14px;
+      background:var(--surface);
+      border:3px solid var(--ink);
+      padding:14px 16px;
+      box-shadow:3px 3px 0 var(--ink);
+      text-decoration:none;color:var(--text);
+      transition:transform .15s,box-shadow .2s;
+    }
+    .contact-item:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--accent);border-color:var(--accent)}
+    .contact-icon{
+      width:40px;height:40px;flex-shrink:0;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      border:2px solid var(--ink);overflow:hidden;
+    }
+    .contact-icon svg{width:22px;height:22px}
+    .contact-info{flex:1}
+    .contact-platform{font-family:var(--font-head);font-size:.95rem;letter-spacing:.04em}
+    .contact-handle{font-size:.75rem;color:var(--muted2);margin-top:1px}
+    .contact-arrow{color:var(--accent);font-size:1rem}
+
+    /* ── FOOTER ── */
+    footer{
+      position:relative;z-index:1;
+      text-align:center;padding:30px 24px 40px;
+      border-top:3px solid var(--ink);
+      font-family:var(--font-head);font-size:.75rem;
+      color:var(--muted);letter-spacing:.1em;
+    }
+    footer span{color:var(--accent)}
+
+    /* ── DIVIDER ── */
+    .manga-divider{
+      display:flex;align-items:center;gap:12px;margin-bottom:32px;
+    }
+    .manga-divider-line{flex:1;height:2px;background:var(--ink)}
+    .manga-divider-star{
+      font-family:var(--font-head);font-size:1rem;color:var(--accent);
+      animation:spin 4s linear infinite;display:inline-block;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes slideUp{
+      from{opacity:0;transform:translateY(20px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    /* ── PANEL CORNERS decorative ── */
+    .panel-corner{
+      position:absolute;width:12px;height:12px;
+      border-color:var(--accent);border-style:solid;
+    }
+    .panel-corner.tl{top:-2px;left:-2px;border-width:2px 0 0 2px}
+    .panel-corner.tr{top:-2px;right:-2px;border-width:2px 2px 0 0}
+    .panel-corner.bl{bottom:-2px;left:-2px;border-width:0 0 2px 2px}
+    .panel-corner.br{bottom:-2px;right:-2px;border-width:0 2px 2px 0}
+
+    @media(max-width:480px){
+      nav{padding:10px 16px}
+      .nav-links{gap:3px}
+      .nav-link{padding:5px 8px;font-size:.75rem}
+      section{padding:60px 16px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-wrap">
+      <img src="logo.jpeg" alt="YudaVerse" class="nav-logo-img"/>
+      <div class="nav-logo-ring"></div>
+    </div>
+    <span class="nav-logo-text">YudaVerse</span>
+  </a>
+  <div class="nav-links">
+    <a href="#about" class="nav-link">About</a>
+    <a href="#skills" class="nav-link">Skills</a>
+    <a href="#projects" class="nav-link">Projects</a>
+    <a href="#contact" class="nav-link">Contact</a>
+    <a href="/downloader" class="nav-link cta">Downloader ↗</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-speed-lines"></div>
+
+  <div class="hero-avatar-wrap">
+    <div class="hero-avatar-ring-outer"></div>
+    <div class="hero-avatar-ring-mid"></div>
+    <img src="logo.jpeg" alt="Yuda" class="hero-avatar"/>
+    <div class="hero-badge">AGE 17</div>
+  </div>
+
+  <p class="hero-greeting">✦ HALO DUNIA! ✦</p>
+  <h1 class="hero-name">YUDA</h1>
+  <p class="hero-tagline">
+    Pelajar <strong>17 tahun</strong> yang passionate di bidang 
+    <strong>komputer & jaringan</strong>. Suka ngoding, nge-game, dan selalu belajar hal baru.
+  </p>
+
+  <div class="hero-chips">
+    <span class="chip red">💻 Web Dev</span>
+    <span class="chip orange">🌐 Networking</span>
+    <span class="chip yellow">🤖 WhatsApp Bot</span>
+    <span class="chip green">🎮 Gamer</span>
+    <span class="chip red">✂️ Editor</span>
+    <span class="chip orange">🖥️ VPS Admin</span>
+  </div>
+
+  <div class="hero-cta">
+    <a href="#contact" class="btn-primary">📨 Hubungi Saya</a>
+    <a href="#projects" class="btn-secondary">🚀 Lihat Project</a>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-arrow"></div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label reveal">PROFIL SAYA</p>
+    <h2 class="section-title reveal">ABOUT ME</h2>
+    <div class="manga-divider reveal">
+      <div class="manga-divider-line"></div>
+      <span class="manga-divider-star">✦</span>
+      <div class="manga-divider-line"></div>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-card reveal" style="position:relative">
+        <div class="panel-corner tl"></div>
+        <div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div>
+        <div class="panel-corner br"></div>
+        <div class="about-card-title">👤 <span>Siapa Yuda?</span></div>
+        <p>Halo! Perkenalkan, nama saya <strong style="color:var(--accent)">Yuda</strong>, seorang pelajar berusia 17 tahun yang memiliki minat di bidang komputer dan jaringan. Saya memiliki ketertarikan dalam pengembangan website serta senang mempelajari hal-hal baru untuk meningkatkan kemampuan saya.</p>
+      </div>
+      <div class="about-card reveal" style="position:relative">
+        <div class="panel-corner tl"></div>
+        <div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div>
+        <div class="panel-corner br"></div>
+        <div class="about-card-title">⚙️ <span>Pengalaman</span></div>
+        <p>Saya memiliki pengalaman dalam mengelola <strong style="color:var(--accent2)">script bot WhatsApp</strong>, serta menjalankan layanan seperti <strong style="color:var(--yellow)">VPS</strong> dan <strong style="color:var(--green)">Pterodactyl Panel</strong>. Selain itu, saya memiliki hobi bermain game dan editing sebagai bentuk kreativitas saya di dunia digital.</p>
+      </div>
+      <div class="about-card reveal" style="position:relative">
+        <div class="panel-corner tl"></div>
+        <div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div>
+        <div class="panel-corner br"></div>
+        <div class="about-card-title">🎯 <span>Tujuan</span></div>
+        <p>Sebagai pribadi yang cenderung <strong style="color:var(--accent)">introvert</strong>, saya tetap memiliki semangat untuk berkembang dan mencapai tujuan saya — yaitu <strong style="color:var(--yellow)">membanggakan kedua orang tua</strong> melalui pencapaian di bidang yang saya tekuni.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="background:rgba(255,255,255,.01);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink)">
+  <div class="container">
+    <p class="section-label reveal">KEMAMPUAN</p>
+    <h2 class="section-title reveal">SKILLS</h2>
+    <div class="manga-divider reveal">
+      <div class="manga-divider-line"></div>
+      <span class="manga-divider-star">✦</span>
+      <div class="manga-divider-line"></div>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-icon">🌐</div>
+        <div class="skill-name">Web Dev</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="75" style="width:75%"></div></div>
+        <div class="skill-level">HTML / CSS / JS</div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🤖</div>
+        <div class="skill-name">WhatsApp Bot</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="80" style="width:80%"></div></div>
+        <div class="skill-level">Script & Deploy</div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🖥️</div>
+        <div class="skill-name">VPS Admin</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="70" style="width:70%"></div></div>
+        <div class="skill-level">Linux / Panel</div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🌐</div>
+        <div class="skill-name">Networking</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="65" style="width:65%"></div></div>
+        <div class="skill-level">TCP/IP / Config</div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🦖</div>
+        <div class="skill-name">Pterodactyl</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="78" style="width:78%"></div></div>
+        <div class="skill-level">Panel Admin</div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">✂️</div>
+        <div class="skill-name">Editing</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="72" style="width:72%"></div></div>
+        <div class="skill-level">Video / Konten</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label reveal">KARYA SAYA</p>
+    <h2 class="section-title reveal">PROJECTS</h2>
+    <div class="manga-divider reveal">
+      <div class="manga-divider-line"></div>
+      <span class="manga-divider-star">✦</span>
+      <div class="manga-divider-line"></div>
+    </div>
+
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-icon">⬇️</div>
+        <div class="project-info">
+          <div class="project-name">YudaVerse Downloader</div>
+          <p class="project-desc">Universal media downloader yang bisa download video & audio dari Facebook, TikTok, Instagram, Spotify, SoundCloud, dan X/Twitter. Dibangun dengan manga-style UI yang keren dan intuitif.</p>
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Vercel</span>
+            <span class="tag">API Integration</span>
+          </div>
+          <a href="/downloader" class="project-link">Buka App ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal" style="text-align:center;margin-top:24px;font-size:.8rem;color:var(--muted);font-family:var(--font-head);letter-spacing:.1em">
+      ✦ MORE COMING SOON ✦
+    </p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background:rgba(255,255,255,.01);border-top:3px solid var(--ink)">
+  <div class="container">
+    <p class="section-label reveal">TEMUKAN SAYA</p>
+    <h2 class="section-title reveal">CONTACT</h2>
+    <div class="manga-divider reveal">
+      <div class="manga-divider-line"></div>
+      <span class="manga-divider-star">✦</span>
+      <div class="manga-divider-line"></div>
+    </div>
+
+    <div class="contact-grid">
+
+      <!-- Email -->
+      <a href="mailto:iqbalpratamayuda6@gmail.com" class="contact-item reveal">
+        <div class="contact-icon" style="background:#ea4335">
+          <svg viewBox="0 0 24 24" fill="white">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+        </div>
+        <div class="contact-info">
+          <div class="contact-platform">Email</div>
+          <div class="contact-handle">iqbalpratamayuda6@gmail.com</div>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/6285880732507" target="_blank" rel="noopener" class="contact-item reveal">
+        <div class="contact-icon" style="background:#25d366">
+          <svg viewBox="0 0 24 24" fill="white">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <div class="contact-info">
+          <div class="contact-platform">WhatsApp</div>
+          <div class="contact-handle">+62 858-8073-2507</div>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+
+      <!-- TikTok 1 -->
+      <a href="https://tiktok.com/@yudaverse_" target="_blank" rel="noopener" class="contact-item reveal">
+        <div class="contact-icon" style="background:#010101;border:2px solid #333">
+          <svg viewBox="0 0 24 24" fill="white" style="width:20px;height:20px">
+            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.77 1.52V6.73a4.85 4.85 0 01-1-.04z"/>
+          </svg>
+        </div>
+        <div class="contact-info">
+          <div class="contact-platform">TikTok</div>
+          <div class="contact-handle">@yudaverse_</div>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+
+      <!-- TikTok 2 -->
+      <a href="https://tiktok.com/@aduyy404" target="_blank" rel="noopener" class="contact-item reveal">
+        <div class="contact-icon" style="background:#010101;border:2px solid #333">
+          <svg viewBox="0 0 24 24" fill="white" style="width:20px;height:20px">
+            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.77 1.52V6.73a4.85 4.85 0 01-1-.04z"/>
+          </svg>
+        </div>
+        <div class="contact-info">
+          <div class="contact-platform">TikTok</div>
+          <div class="contact-handle">@aduyy404</div>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Made with <span>♥</span> by <span>Yuda</span> &mdash; YudaVerse &copy; 2025</p>
+  <p style="margin-top:6px;font-size:.65rem">Membanggakan orang tua, satu commit dalam satu waktu ✦</p>
+</footer>
+
+<script>
+  // Cursor
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    cur.style.left=(mx-6)+'px';cur.style.top=(my-6)+'px';
+  });
+  (function animRing(){
+    rx+=(mx-rx-16)*.12;ry+=(my-ry-16)*.12;
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.style.transform='rotate(45deg) scale(1.8)';ring.style.transform='rotate(45deg) scale(1.4)';ring.style.opacity='1'});
+    el.addEventListener('mouseleave',()=>{cur.style.transform='rotate(45deg) scale(1)';ring.style.transform='rotate(45deg) scale(1)';ring.style.opacity='.5'});
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('visible'), i*60);
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.12});
+  reveals.forEach(el=>io.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+</script>
+</body>
+</html>
