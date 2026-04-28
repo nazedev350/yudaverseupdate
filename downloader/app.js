@@ -298,10 +298,24 @@ tryAutoplay();
 
 (function initFlow(){
   const ls=$('loadScreen'),pp=$('platformPicker'),app=$('app');
-  setTimeout(()=>{
+
+  // Fix: Percepat timeout & tambahkan safeguard agar tidak stuck
+  const showPicker=()=>{
+    if(ls.style.display==='none')return; // sudah jalan, skip
     ls.classList.add('fade-out');
-    setTimeout(()=>{ls.style.display='none';pp.classList.remove('hidden');pp.classList.add('slide-in');},500);
-  },1900);
+    setTimeout(()=>{ls.style.display='none';pp.classList.remove('hidden');pp.classList.add('slide-in');},400);
+  };
+
+  // Tampilkan picker setelah 800ms (lebih cepat dari 1900ms)
+  setTimeout(showPicker,800);
+
+  // Fallback paksa: jika setelah 4 detik masih loading, langsung tampilkan
+  setTimeout(()=>{
+    if(ls.style.display!=='none'){
+      ls.style.transition='none';
+      showPicker();
+    }
+  },4000);
   let selected=null;
   const cards=document.querySelectorAll('.pp-card'),cta=$('ppCta'),ctaLbl=$('ppCtaLabel');
   cards.forEach(card=>{
