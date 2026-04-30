@@ -392,6 +392,67 @@
     .contact-handle{font-size:.75rem;color:var(--muted2);margin-top:1px}
     .contact-arrow{color:var(--accent);font-size:1rem}
 
+    /* ── ANIME ── */
+    .anime-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+    @media(min-width:500px){.anime-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(min-width:680px){.anime-grid{grid-template-columns:repeat(4,1fr)}}
+    .anime-card{
+      background:var(--surface);
+      border:3px solid var(--ink);
+      box-shadow:3px 3px 0 var(--ink);
+      overflow:hidden;
+      position:relative;
+      transition:transform .15s,box-shadow .2s;
+      clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+    }
+    .anime-card:hover{
+      transform:translate(-3px,-3px);
+      box-shadow:6px 6px 0 var(--accent);
+    }
+    .anime-card-img-wrap{
+      position:relative;width:100%;padding-bottom:140%;overflow:hidden;
+    }
+    .anime-card-img-wrap img{
+      position:absolute;inset:0;width:100%;height:100%;
+      object-fit:cover;
+      transition:transform .3s ease;
+    }
+    .anime-card:hover .anime-card-img-wrap img{transform:scale(1.05)}
+    .anime-card-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(0,0,0,.92) 0%,transparent 55%);
+    }
+    .anime-card-badge{
+      position:absolute;top:6px;right:6px;
+      font-family:var(--font-head);font-size:.55rem;letter-spacing:.1em;
+      padding:2px 6px;
+      border:1.5px solid var(--ink);
+      box-shadow:1px 1px 0 var(--ink);
+    }
+    .anime-card-badge.ongoing{background:var(--accent);color:#fff}
+    .anime-card-badge.completed{background:var(--green);color:var(--ink)}
+    .anime-card-info{
+      position:absolute;bottom:0;left:0;right:0;
+      padding:8px 8px 10px;
+    }
+    .anime-card-title{
+      font-family:var(--font-head);font-size:.72rem;letter-spacing:.03em;
+      color:#fff;line-height:1.2;margin-bottom:4px;
+    }
+    .anime-card-genres{
+      font-size:.55rem;color:rgba(255,255,255,.55);
+      line-height:1.3;margin-bottom:4px;
+    }
+    .anime-card-rating{
+      display:inline-flex;align-items:center;gap:3px;
+      font-family:var(--font-head);font-size:.65rem;
+      color:var(--yellow);
+    }
+
     /* ── FOOTER ── */
     footer{
       position:relative;z-index:1;
@@ -459,6 +520,7 @@
     <a href="#about" class="nav-link">About</a>
     <a href="#skills" class="nav-link">Skills</a>
     <a href="#projects" class="nav-link">Projects</a>
+    <a href="#anime" class="nav-link">Anime</a>
     <a href="#contact" class="nav-link">Contact</a>
 
   </div>
@@ -619,6 +681,149 @@
     <p class="reveal" style="text-align:center;margin-top:24px;font-size:.8rem;color:var(--muted);font-family:var(--font-head);letter-spacing:.1em">
       ✦ MORE COMING SOON ✦
     </p>
+  </div>
+</section>
+
+<!-- ANIME -->
+<section id="anime" style="background:rgba(255,255,255,.01);border-top:3px solid var(--ink)">
+  <div class="container" style="max-width:860px">
+    <p class="section-label reveal">TONTONAN FAVORIT</p>
+    <h2 class="section-title reveal">ANIME LIST</h2>
+    <div class="manga-divider reveal">
+      <div class="manga-divider-line"></div>
+      <span class="manga-divider-star">✦</span>
+      <div class="manga-divider-line"></div>
+    </div>
+
+    <div class="anime-grid">
+
+      <!-- 1 -->
+      <div class="anime-card reveal">
+        <div class="anime-card-img-wrap">
+          <img src="https://otakudesu.blog/wp-content/uploads/2026/04/class-de-2-banme-ni-kawaii-onnanoko-to-tomodachi-ni-natta-55a3516a2ab9a15ce04946bee1aa68a1.jpg" alt="Class de 2-banme" loading="lazy"/>
+          <div class="anime-card-overlay"></div>
+          <span class="anime-card-badge ongoing">ONGOING</span>
+          <div class="anime-card-info">
+            <div class="anime-card-title">Class de 2-banme ni Kawaii Onnanoko to Tomodachi ni Natta</div>
+            <div class="anime-card-genres">Romance, School</div>
+            <div class="anime-card-rating">⭐ N/A</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="anime-card reveal">
+        <div class="anime-card-img-wrap">
+          <img src="https://otakudesu.blog/wp-content/uploads/2026/01/Mayonaka-Heart-Tune.jpg" alt="Mayonaka Heart Tune" loading="lazy"/>
+          <div class="anime-card-overlay"></div>
+          <span class="anime-card-badge completed">COMPLETED</span>
+          <div class="anime-card-info">
+            <div class="anime-card-title">Mayonaka Heart Tune</div>
+            <div class="anime-card-genres">Comedy, Harem, Romance, School, Shounen, Showbiz</div>
+            <div class="anime-card-rating">⭐ 7.00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="anime-card reveal">
+        <div class="anime-card-img-wrap">
+          <img src="https://otakudesu.blog/wp-content/uploads/2022/07/Kawaii-dake-ja-Nai-Shikimori-san-Sub-Indo.jpg" alt="Shikimori-san" loading="lazy"/>
+          <div class="anime-card-overlay"></div>
+          <span class="anime-card-badge completed">COMPLETED</span>
+          <div class="anime-card-info">
+            <div class="anime-card-title">Kawaii dake ja Nai Shikimori-san</div>
+            <div class="anime-card-genres">Comedy, Romance, School, Slice of Life</div>
+            <div class="anime-card-rating">⭐ 6.96</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="anime-card reveal">
+        <div class="anime-card-img-wrap">
+          <img src="https://otakudesu.blog/wp-content/uploads/2026/04/Otonari-no-Tenshi-sama-ni-Itsunomanika-Dame-Ningen-ni-Sareteita-Ken-S2-Sub.jpg" alt="Otonari Tenshi S2" loading="lazy"/>
+          <div class="anime-card-overlay"></div>
+          <span class="anime-card-badge ongoing">ONGOING</span>
+          <div class="anime-card-info">
+            <div class="anime-card-title">Otonari no Tenshi-sama… Dame Ningen ni Sareteita Ken S2</div>
+            <div class="anime-card-genres">Romance, School</div>
+            <div class="anime-card-rating">⭐ 8.16</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="anime-card reveal">
+        <div class="anime-card-img-wrap">
+          <img src="https://otakudesu.blog/wp-content/uploads/2023/04/Otonari-no-Tenshi-sama-ni-Itsunomanika-Dame-Ningen-ni-Sareteita-Ken-Sub-Indo.jpg" alt="Otonari Tenshi S1" loading="lazy"/>
+          <div class="anime-card-overlay"></div>
+          <span class="anime-card-badge completed">COMPLETED</span>
+          <div class="anime-card-info">
+            <div class="anime-card-title">Otonari no Tenshi-sama… Dame Ningen ni Sareteita Ken</div>
+            <div class="anime-card-genres">Comedy, Romance, School</div>
+            <div class="anime-card-rating">⭐ 7.87</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="anime-card reveal">
+        <div class="anime-card-img-wrap">
+          <img src="https://otakudesu.blog/wp-content/uploads/2023/09/Tonikaku-Kawaii-Joshikou-hen-Sub-Indo.jpg" alt="Tonikaku Kawaii Joshikou" loading="lazy"/>
+          <div class="anime-card-overlay"></div>
+          <span class="anime-card-badge completed">COMPLETED</span>
+          <div class="anime-card-info">
+            <div class="anime-card-title">Tonikaku Kawaii: Joshikou-hen</div>
+            <div class="anime-card-genres">Comedy, Romance, Shounen</div>
+            <div class="anime-card-rating">⭐ 7.78</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="anime-card reveal">
+        <div class="anime-card-img-wrap">
+          <img src="https://otakudesu.blog/wp-content/uploads/2023/04/Tonikaku-Kawaii-Season-2-Sub-Indo.jpg" alt="Tonikaku Kawaii S2" loading="lazy"/>
+          <div class="anime-card-overlay"></div>
+          <span class="anime-card-badge completed">COMPLETED</span>
+          <div class="anime-card-info">
+            <div class="anime-card-title">Tonikaku Kawaii Season 2</div>
+            <div class="anime-card-genres">Comedy, Romance, Shounen</div>
+            <div class="anime-card-rating">⭐ 7.59</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="anime-card reveal">
+        <div class="anime-card-img-wrap">
+          <img src="https://otakudesu.blog/wp-content/uploads/2020/10/Tonikaku-Kawaii-Sub-Indo.jpg" alt="Tonikaku Kawaii S1" loading="lazy"/>
+          <div class="anime-card-overlay"></div>
+          <span class="anime-card-badge completed">COMPLETED</span>
+          <div class="anime-card-info">
+            <div class="anime-card-title">Tonikaku Kawaii</div>
+            <div class="anime-card-genres">Comedy, Romance, Shounen</div>
+            <div class="anime-card-rating">⭐ 8.04</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="anime-card reveal">
+        <div class="anime-card-img-wrap">
+          <img src="https://otakudesu.blog/wp-content/uploads/2025/07/Kaoru-Hana-wa-Rin-to-Saku.jpg" alt="Kaoru Hana wa Rin to Saku" loading="lazy"/>
+          <div class="anime-card-overlay"></div>
+          <span class="anime-card-badge completed">COMPLETED</span>
+          <div class="anime-card-info">
+            <div class="anime-card-title">Kaoru Hana wa Rin to Saku</div>
+            <div class="anime-card-genres">Drama, Romance, School</div>
+            <div class="anime-card-rating">⭐ 8.73</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
