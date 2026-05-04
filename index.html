@@ -493,10 +493,64 @@
     .panel-corner.bl{bottom:-2px;left:-2px;border-width:0 0 2px 2px}
     .panel-corner.br{bottom:-2px;right:-2px;border-width:0 2px 2px 0}
 
-    @media(max-width:480px){
+    /* ── HAMBURGER BUTTON ── */
+    .nav-hamburger{
+      display:none;
+      flex-direction:column;justify-content:center;align-items:center;
+      gap:5px;
+      width:40px;height:40px;
+      background:transparent;
+      border:2px solid var(--border2);
+      cursor:pointer;
+      padding:6px;
+      border-radius:3px;
+      transition:all .15s;
+      box-shadow:2px 2px 0 var(--ink);
+    }
+    .nav-hamburger:hover{border-color:var(--accent);box-shadow:2px 2px 0 var(--accent)}
+    .nav-hamburger span{
+      display:block;width:20px;height:2px;
+      background:var(--text);
+      border-radius:1px;
+      transition:all .25s cubic-bezier(.4,0,.2,1);
+      transform-origin:center;
+    }
+    .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+    @media(max-width:700px){
       nav{padding:10px 16px}
-      .nav-links{gap:3px}
-      .nav-link{padding:5px 8px;font-size:.75rem}
+      .nav-hamburger{display:flex}
+      .nav-links{
+        display:none;
+        position:absolute;
+        top:100%;left:0;right:0;
+        flex-direction:column;
+        gap:0;
+        background:rgba(10,10,10,.97);
+        border-top:3px solid var(--ink);
+        border-bottom:3px solid var(--accent);
+        backdrop-filter:blur(20px);
+        padding:8px 16px 16px;
+        box-shadow:0 8px 0 rgba(255,56,96,.2);
+      }
+      .nav-links.open{display:flex}
+      .nav-link{
+        padding:12px 8px;
+        font-size:1rem;
+        border-bottom:1px solid var(--border);
+        border-radius:0;
+        border-left:none;border-right:none;border-top:none;
+      }
+      .nav-link:last-child{border-bottom:none}
+      .nav-link:hover{transform:translateX(4px);box-shadow:none}
+      .nav-link.cta{
+        margin-top:8px;
+        text-align:center;
+        border:2px solid var(--ink);
+        box-shadow:3px 3px 0 var(--ink);
+      }
       section{padding:60px 16px}
     }
   </style>
@@ -516,13 +570,17 @@
     </div>
     <span class="nav-logo-text">YudaVerse</span>
   </a>
-  <div class="nav-links">
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
     <a href="#about" class="nav-link">About</a>
     <a href="#skills" class="nav-link">Skills</a>
     <a href="#projects" class="nav-link">Projects</a>
     <a href="#anime" class="nav-link">Anime</a>
     <a href="#contact" class="nav-link">Contact</a>
-
   </div>
 </nav>
 
@@ -966,12 +1024,18 @@
   },{threshold:.12});
   reveals.forEach(el=>io.observe(el));
 
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a=>{
-    a.addEventListener('click',e=>{
-      e.preventDefault();
-      const t=document.querySelector(a.getAttribute('href'));
-      if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+  // Hamburger menu
+  const hamburger = document.getElementById('navHamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  // Close menu when a link is clicked
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
     });
   });
 </script>
