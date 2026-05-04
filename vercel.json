@@ -1,7 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/downloader", "destination": "/downloader/index.html" },
-    { "source": "/downloader/(.*)", "destination": "/downloader/$1" },
-    { "source": "/", "destination": "/index.html" }
-  ]
-}
