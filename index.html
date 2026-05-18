@@ -533,13 +533,13 @@
     <div class="cards">
       <div class="card card-green">
         <div class="card-label">Estimasi Selesai</div>
-        <div class="card-value" style="color:var(--accent)">Soon</div>
+        <div class="card-value" style="color:var(--accent)">2 Juli 2026</div>
         <div class="card-sub">Sedang diperbarui</div>
       </div>
       <div class="card card-red">
         <div class="card-label">Status Server</div>
-        <div class="card-value" style="color:var(--accent3)">Partial</div>
-        <div class="card-sub">Offline</div>
+        <div class="card-value" style="color:var(--accent2)">Offine</div>
+        <div class="card-sub">Server Down</div>
       </div>
       <div class="card card-red">
         <div class="card-label">Incident Code</div>
@@ -577,7 +577,7 @@
     function updateTime() {
       const now = new Date();
       const ts = now.toISOString().replace('T', ' ').substring(0, 19);
-      document.title = `[MAINTENANCE] YudaVerse — ${ts}`;
+      document.title = `YudaVerse Portfolio`;
     }
     setInterval(updateTime, 1000);
     updateTime();
