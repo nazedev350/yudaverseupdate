@@ -1,1 +1,595 @@
-Hello!
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YudaVerse — Under Maintenance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #050508;
+      --surface: #0d0d14;
+      --accent: #7fff6e;
+      --accent2: #ff4f6d;
+      --accent3: #5edfff;
+      --text: #e8e8f0;
+      --muted: #4a4a60;
+      --border: #1a1a2e;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.6;
+    }
+
+    /* Animated grid */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridShift 20s linear infinite;
+      opacity: 0.5;
+    }
+
+    @keyframes gridShift {
+      0% { background-position: 0 0; }
+      100% { background-position: 60px 60px; }
+    }
+
+    /* Glowing orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .orb-1 {
+      width: 500px; height: 500px;
+      background: rgba(127,255,110,0.06);
+      top: -150px; left: -150px;
+      animation: floatOrb1 12s ease-in-out infinite;
+    }
+    .orb-2 {
+      width: 400px; height: 400px;
+      background: rgba(255,79,109,0.06);
+      bottom: -100px; right: -100px;
+      animation: floatOrb2 15s ease-in-out infinite;
+    }
+    .orb-3 {
+      width: 300px; height: 300px;
+      background: rgba(94,223,255,0.05);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      animation: floatOrb3 10s ease-in-out infinite;
+    }
+
+    @keyframes floatOrb1 {
+      0%,100% { transform: translate(0,0); }
+      50% { transform: translate(60px, 80px); }
+    }
+    @keyframes floatOrb2 {
+      0%,100% { transform: translate(0,0); }
+      50% { transform: translate(-40px,-60px); }
+    }
+    @keyframes floatOrb3 {
+      0%,100% { transform: translate(-50%,-50%) scale(1); }
+      50% { transform: translate(-50%,-50%) scale(1.2); }
+    }
+
+    /* Scanlines */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    /* Main container */
+    .container {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 40px 24px;
+      max-width: 760px;
+      width: 100%;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Status badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,79,109,0.1);
+      border: 1px solid rgba(255,79,109,0.3);
+      color: var(--accent2);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 2px;
+      margin-bottom: 40px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent2);
+      animation: blink 1s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    /* Logo / Brand */
+    .brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(64px, 14vw, 120px);
+      letter-spacing: 6px;
+      line-height: 1;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .brand-yuda {
+      color: var(--text);
+      display: block;
+    }
+
+    .brand-verse {
+      color: transparent;
+      -webkit-text-stroke: 1px var(--accent);
+      display: block;
+      position: relative;
+    }
+
+    /* Glitch effect on VERSE */
+    .brand-verse::before,
+    .brand-verse::after {
+      content: 'VERSE';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+    }
+    .brand-verse::before {
+      color: var(--accent3);
+      -webkit-text-stroke: 0;
+      clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+      animation: glitch1 4s infinite;
+    }
+    .brand-verse::after {
+      color: var(--accent2);
+      -webkit-text-stroke: 0;
+      clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+      animation: glitch2 4s infinite;
+    }
+
+    @keyframes glitch1 {
+      0%,92%,100% { transform: translateX(-50%); opacity: 0; }
+      93% { transform: translateX(calc(-50% - 4px)); opacity: 0.7; }
+      95% { transform: translateX(calc(-50% + 4px)); opacity: 0.7; }
+      97% { transform: translateX(-50%); opacity: 0; }
+    }
+    @keyframes glitch2 {
+      0%,92%,100% { transform: translateX(-50%); opacity: 0; }
+      94% { transform: translateX(calc(-50% + 3px)); opacity: 0.5; }
+      96% { transform: translateX(calc(-50% - 3px)); opacity: 0.5; }
+      98% { transform: translateX(-50%); opacity: 0; }
+    }
+
+    .subtitle {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 60px;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--muted), transparent);
+    }
+    .divider-icon {
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    /* Error terminal */
+    .terminal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-align: left;
+      margin-bottom: 40px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.03);
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+
+    .terminal-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-left: 8px;
+    }
+
+    .terminal-body {
+      padding: 20px 24px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .t-line { display: flex; gap: 12px; margin-bottom: 2px; }
+    .t-prompt { color: var(--accent); }
+    .t-cmd { color: var(--text); }
+    .t-err { color: var(--accent2); }
+    .t-warn { color: #febc2e; }
+    .t-ok { color: var(--accent); }
+    .t-dim { color: var(--muted); }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background: var(--accent);
+      animation: cursor 1s step-end infinite;
+      vertical-align: middle;
+      margin-left: 2px;
+    }
+    @keyframes cursor {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Progress */
+    .progress-section {
+      margin-bottom: 48px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      position: relative;
+      animation: progressFill 3s ease-out forwards;
+    }
+
+    .pf-1 { background: linear-gradient(90deg, var(--accent), var(--accent3)); width: 0; animation-delay: 0.5s; }
+    .pf-2 { background: linear-gradient(90deg, var(--accent3), var(--accent)); width: 0; animation-delay: 0.8s; }
+    .pf-3 { background: linear-gradient(90deg, var(--accent2), #ff9a3c); width: 0; animation-delay: 1.1s; }
+
+    @keyframes progressFill {
+      to { width: var(--target); }
+    }
+    .pf-1 { --target: 88%; }
+    .pf-2 { --target: 72%; }
+    .pf-3 { --target: 45%; }
+
+    .progress-row { margin-bottom: 16px; }
+
+    /* Info cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(127,255,110,0.08);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+    }
+    .card-green::before { background: var(--accent); }
+    .card-blue::before { background: var(--accent3); }
+    .card-red::before { background: var(--accent2); }
+
+    .card-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .card-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+    .card-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Footer */
+    .footer {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      line-height: 2;
+    }
+    .footer a {
+      color: var(--accent3);
+      text-decoration: none;
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .particle {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0;
+      animation: particleFly linear infinite;
+    }
+    @keyframes particleFly {
+      0% { opacity: 0; transform: translateY(0) scale(0); }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.2; }
+      100% { opacity: 0; transform: translateY(-100vh) scale(1.5); }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="scanlines"></div>
+  <div class="particles" id="particles"></div>
+
+  <div class="container">
+
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      System Offline — Maintenance Mode
+    </div>
+
+    <div class="brand">
+      <span class="brand-yuda">YUDA</span>
+      <span class="brand-verse">VERSE</span>
+    </div>
+
+    <p class="subtitle">Portfolio &nbsp;/&nbsp; Creative Developer</p>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-icon">⚙</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span class="terminal-title">yudaverse — system.log</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line">
+          <span class="t-prompt">$</span>
+          <span class="t-cmd">sudo systemctl status yudaverse.portfolio</span>
+        </div>
+        <div class="t-line">
+          <span class="t-dim">→</span>
+          <span class="t-err">ERROR 503: Service Temporarily Unavailable</span>
+        </div>
+        <div class="t-line">
+          <span class="t-dim">→</span>
+          <span class="t-warn">⚠ Scheduled maintenance in progress...</span>
+        </div>
+        <div class="t-line">
+          <span class="t-dim">→</span>
+          <span class="t-dim">Upgrading portfolio modules v2.x → v3.0</span>
+        </div>
+        <div class="t-line">
+          <span class="t-dim">→</span>
+          <span class="t-dim">Deploying new project showcases...</span>
+        </div>
+        <div class="t-line">
+          <span class="t-dim">→</span>
+          <span class="t-ok">✓ Database backup: complete</span>
+        </div>
+        <div class="t-line">
+          <span class="t-dim">→</span>
+          <span class="t-warn">⚠ Asset bundler: rebuilding (72%)</span>
+        </div>
+        <div class="t-line">
+          <span class="t-prompt">$</span>
+          <span class="t-cmd">_<span class="cursor"></span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress bars -->
+    <div class="progress-section">
+      <div class="progress-row">
+        <div class="progress-label">
+          <span>UI Components</span>
+          <span class="t-ok">88%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill pf-1"></div>
+        </div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label">
+          <span>Project Gallery</span>
+          <span style="color:var(--accent3)">72%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill pf-2"></div>
+        </div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label">
+          <span>Backend API</span>
+          <span style="color:var(--accent2)">45%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill pf-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="cards">
+      <div class="card card-green">
+        <div class="card-label">Estimasi Selesai</div>
+        <div class="card-value" style="color:var(--accent)">Soon</div>
+        <div class="card-sub">Sedang diperbarui</div>
+      </div>
+      <div class="card card-blue">
+        <div class="card-label">Status Server</div>
+        <div class="card-value" style="color:var(--accent3)">Partial</div>
+        <div class="card-sub">3/7 services online</div>
+      </div>
+      <div class="card card-red">
+        <div class="card-label">Incident Code</div>
+        <div class="card-value" style="color:var(--accent2)">#YV503</div>
+        <div class="card-sub">Planned downtime</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Website sedang dalam proses pembaruan & peningkatan.</p>
+      <p>Terima kasih atas kesabaran kamu! &nbsp;—&nbsp; <span style="color:var(--accent)">YudaVerse</span></p>
+      <br>
+      <p>Butuh bantuan? Hubungi: <a href="mailto:hello@yudaverse.dev">hello@yudaverse.dev</a></p>
+    </div>
+
+  </div>
+
+  <script>
+    // Generate floating particles
+    const container = document.getElementById('particles');
+    const colors = ['#7fff6e', '#5edfff', '#ff4f6d'];
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.top = Math.random() * 100 + 'vh';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.animationDuration = (8 + Math.random() * 12) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+      container.appendChild(p);
+    }
+
+    // Live clock in terminal (optional flavor)
+    function updateTime() {
+      const now = new Date();
+      const ts = now.toISOString().replace('T', ' ').substring(0, 19);
+      document.title = `[MAINTENANCE] YudaVerse — ${ts}`;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+  </script>
+</body>
+</html>
